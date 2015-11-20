@@ -1,5 +1,8 @@
-/*
- * angular google map wrapper
+/**
+ * Author:Subash Selvaraj
+ * Date: 20-11-2015
+ * website: subashselvaraj.com
+ * Directive for angular google map wrapper
  * Handle Google Maps API V3+
  * Documentation: https://developers.google.com/maps/documentation/
  *
