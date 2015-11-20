@@ -242,7 +242,7 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
                         }
 
                     }
-                }, 100);
+                }, 1000);
             }
 
             // convert current location to Google maps location
