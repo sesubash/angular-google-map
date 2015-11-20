@@ -260,6 +260,9 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
         } // end of link:
     }; // end of return
 })
+//=======================================================================
+//  Helper filters can be modified based on application's json structure
+//=======================================================================
 /*
  * latlong
  * @Param object
