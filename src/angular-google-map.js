@@ -27,6 +27,7 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
             fitBounds: "=",
             neverPanCenter: "=",
             infoWindow: "=",
+            markerIcon: "@",
             onInfoOpen: "&",
             onDetailClick: "&"
 
@@ -58,22 +59,20 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
                 $window.document.body.appendChild(script);
             }
 
-            // $('a[href="#fourth"]').on('shown.bs.tab', function (e) {
-            //     google.maps.event.trigger(map, 'resize');
-            // });
-
             function createMap() {
                 scope.$watch("center", function () {
                     (scope.center.length) ? (scope.center = angular.fromJson(scope.center)) : "";
+                    scope.markerIcon = (scope.markerIcon == undefined) ? "http://www.google.com/mapfiles/markerA.png" : scope.markerIcon;
+
                     if (scope.center.latitude !== undefined) {
                         var mapOptions = {
                             zoom: scope.zoom,
                             center: new google.maps.LatLng(scope.center.latitude, scope.center.longitude),
                             mapTypeId: google.maps.MapTypeId.ROADMAP,
-                            panControl: false,
-                            zoomControl: false,
+                            panControl: scope.panControl,
+                            zoomControl: scope.zoomControl,
                             mapTypeControl: false,
-                            scaleControl: false,
+                            scaleControl: scope.scaleControl,
                             streetViewControl: false,
                             navigationControl: true,
                             disableDefaultUI: true,
@@ -102,13 +101,6 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
                 console.log("markers");
                 updateMarkers();
             });
-
-            // scope.openBidNowPopup = function($event){
-            //     $('.ea-tab li:eq(0) a').tab('show');
-            //     $event.preventDefault();
-            //     scope.$emit("openPopup", angular.element($event.currentTarget).data('id'));
-            //     $('#myonoffswitch').prop('checked',false);
-            // };
 
             function fitBoundsToVisibleMarkers() {
 
@@ -186,7 +178,7 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
                                     var mm;
 
                                     var iconImage = {
-                                        url: 'http://www.google.com/mapfiles/markerA.png',
+                                        url: scope.markerIcon,
                                         // This marker is 20 pixels wide by 32 pixels tall.
                                         //size: new google.maps.Size(20, 32),
                                         // The origin for this image is 0,0.
@@ -216,7 +208,7 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
                                     position: loc,
                                     map: map,
                                     title: m.title,
-                                    icon: "http://www.google.com/mapfiles/markerA.png"
+                                    icon: scope.markerIcon
                                 });
                                 //console.log("map: make marker for " + m.name);
                                 if (scope.infoWindow)
