@@ -29,7 +29,7 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
             infoWindow: "=",
             markerIcon: "@",
             onInfoOpen: "&",
-            onDetailClick: "&"
+            onMarkersAdded: "&"
 
         },
         link: function (scope, element, attrs) {
@@ -217,26 +217,28 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
                             }
                         }
                     }
+                    if(currentMarkers !== undefined){
+                      scope.onMarkersAdded();
+                      if (scope.fitBounds) {
+                          fitBoundsToVisibleMarkers();
+                      } else if (currentMarkers.length == 1) {
+                          map.setCenter(currentMarkers[0].getPosition());
+                          if(scope.neverPanCenter === undefined){
+                              var pannedOnce = false;
+                              google.maps.event.addListener(map, 'center_changed', function () {
+                                  // 3 seconds after the center of the map has changed, pan back to the
+                                  // marker.
+                                  if(!pannedOnce){
+                                      pannedOnce = true;
+                                      window.setTimeout(function () {
+                                          map.panTo(currentMarkers[0].getPosition());
+                                      }, 300);
+                                  }
+                              });
+                          }
 
-                    if (currentMarkers !== undefined && scope.fitBounds) {
-                        fitBoundsToVisibleMarkers();
-                    } else if (currentMarkers !== undefined && currentMarkers.length == 1) {
-                        map.setCenter(currentMarkers[0].getPosition());
-                        if(scope.neverPanCenter === undefined){
-                            var pannedOnce = false;
-                            google.maps.event.addListener(map, 'center_changed', function () {
-                                // 3 seconds after the center of the map has changed, pan back to the
-                                // marker.
-                                if(!pannedOnce){
-                                    pannedOnce = true;
-                                    window.setTimeout(function () {
-                                        map.panTo(currentMarkers[0].getPosition());
-                                    }, 300);
-                                }
-                            });
-                        }
-
-                    }
+                      }
+                  }
                 }, 1000);
             }
 

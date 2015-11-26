@@ -18,4 +18,8 @@ app.controller('MainCtrl', function($scope) {
       longitude: "56.5446371",
       title: "welcome"
     }];
+
+  $scope.onMarkersAdded = function(){
+    console.log("markers added");
+  };
 });
