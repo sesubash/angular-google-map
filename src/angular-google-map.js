@@ -55,14 +55,14 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
             function loadGMaps() {
                 var script = $window.document.createElement('script');
                 script.type = 'text/javascript';
-                script.src = 'http://maps.googleapis.com/maps/api/js?v=3.exp&callback=InitMapCb';
+                script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&callback=InitMapCb';
                 $window.document.body.appendChild(script);
             }
 
             function createMap() {
                 scope.$watch("center", function () {
                     (scope.center.length) ? (scope.center = angular.fromJson(scope.center)) : "";
-                    scope.markerIcon = (scope.markerIcon == undefined) ? "http://www.google.com/mapfiles/markerA.png" : scope.markerIcon;
+                    scope.markerIcon = (scope.markerIcon == undefined) ? "https://www.google.com/mapfiles/markerA.png" : scope.markerIcon;
 
                     if (scope.center.latitude !== undefined) {
                         var mapOptions = {
@@ -178,7 +178,7 @@ angular.module('sesu.angular.googlemap',[]).directive("googleMap", function ($wi
                                     var mm;
 
                                     var iconImage = {
-                                        url: scope.markerIcon,
+                                        url: (m.markerIcon) ? m.markerIcon : scope.markerIcon,
                                         // This marker is 20 pixels wide by 32 pixels tall.
                                         //size: new google.maps.Size(20, 32),
                                         // The origin for this image is 0,0.
